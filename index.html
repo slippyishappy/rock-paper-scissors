@@ -21,47 +21,42 @@
             return choice[random];
         }
 
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
         function playerRound(playerSelection, computerSelection) {
 
             computerSelection = getComputerChoice();
-            playerSelection = "rock";
+            playerSelection = prompt("Choose your weapon: Rock, Paper, or Scissors?").toLowerCase();
 
-            if (playerSelection === "rock" && computerSelection === "paper") {
+            if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "scissors")
+            || (playerSelection === "scissors" && computerSelection === "rock")) {
                 ++computerScore;
-                return "You Loose! Paper beats Rock";
-            } else if (playerSelection === "paper" && computerSelection === "rock") {
+                return `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
+            } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
+            || (playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "rock" && computerSelection === "scissors")) {
                 ++playerScore;
-                return "You Win! Paper beats Rock";
-            } else if (playerSelection === "paper" && computerSelection === "scissors") {
-                ++computerScore;
-                return "You Loose! Scissors beats Paper";
-            } else if (playerSelection === "scissors" && computerSelection === "paper") {
-                ++playerScore;
-                return "You Win! Scissors beats Paper";
-            } else if (playerSelection === "scissors" && computerSelection === "rock") {
-                ++computerScore;
-                return "You Loose! Rock beats Scissors";
-            } else if (playerSelection === "rock" && computerSelection === "paper") {
-                ++playerScore;
-                return "You Win! Rock beats Paper";
-            } else if (playerSelection === "rock" && computerSelection === "scissors") {
-                ++playerScore;
-                return "You Win! Rock beats Scissors"
+                return `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
             } else if (playerSelection === computerSelection) {
                 return "It's a tie!";
             }
         }
 
         function game() {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 1; i < 6; i++) {
+                console.log(`Round - ${i}`);
                 console.log(playerRound(playerSelection, computerSelection));
+                console.log(`Player: ${playerScore}, Computer: ${computerScore}`);
             }
 
-            /*if (playerScore > computerScore) {
-                return ("You won!");
+            if (playerScore > computerScore) {
+                return "Final result: Let's go! You won!";
+            } else if (computerScore > playerScore) {
+                return "Final result: You lost! =(";
             } else {
-                return ("You lost");
-            }*/
+                return "Final result: It's a draw!";
+            }
         }
 
         console.log(game());
