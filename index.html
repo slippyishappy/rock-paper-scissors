@@ -8,13 +8,21 @@
     <script src="rps.js" defer></script>
 </head>
 <body>
+    <div id="result"></div>
+
+    <div class="choices">
+        <button value="rock">Rock</button>
+        <button value="paper">Paper</button>
+        <button value="scissors">Scissors</button>
+    </div>
+
     <script>
 
+        let btns = document.querySelectorAll(".choices");
+        let result = document.querySelector("#result");
         let choice = ["rock", "paper", "scissors"];
-
         let computerSelection;
         let playerSelection;
-
         let computerScore = 0;
         let playerScore = 0;
 
@@ -28,40 +36,27 @@
         }
 
         function playerRound(playerSelection, computerSelection) {
-
-            computerSelection = getComputerChoice();
-            playerSelection = prompt("Choose your weapon: Rock, Paper, or Scissors?").toLowerCase();
-
+            
             if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "scissors")
             || (playerSelection === "scissors" && computerSelection === "rock")) {
                 ++computerScore;
-                return `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
+                result.textContent = `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
             } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
             || (playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "rock" && computerSelection === "scissors")) {
                 ++playerScore;
-                return `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
+                result.textContent = `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
             } else if (playerSelection === computerSelection) {
-                return "It's a tie!";
+                result.textContent = "It's a tie!";
             }
         }
-
-        function game() {
-            for (let i = 1; i < 6; i++) {
-                console.log(`Round - ${i}`);
-                console.log(playerRound(playerSelection, computerSelection));
-                console.log(`Player: ${playerScore}, Computer: ${computerScore}`);
-            }
-
-            if (playerScore > computerScore) {
-                return "Final result: Let's go! You won!";
-            } else if (computerScore > playerScore) {
-                return "Final result: You lost! =(";
-            } else {
-                return "Final result: It's a draw!";
-            }
-        }
-
-        console.log(game());
+        
+        btns.forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                playerSelection = event.target.value;
+                computerSelection = getComputerChoice();
+                playerRound(playerSelection, computerSelection);
+            })
+        });
 
     </script>
 </body>
