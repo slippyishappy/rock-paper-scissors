@@ -21,7 +21,7 @@
 
     <script>
 
-        let btns = document.querySelectorAll(".choices");
+        let btns = document.querySelectorAll(".choices button");
         let result = document.querySelector("#result");
         let score = document.querySelector("#score");
         let restart = document.querySelector("#restart");
@@ -46,19 +46,22 @@
                         computerScore++;
                         result.textContent = `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
                     } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
-                    || (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "rock" && computerSelection === "scissors")) {
+                    || (playerSelection === "rock" && computerSelection === "scissors")) {
                         playerScore++;
                         result.textContent = `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
                     } else if (playerSelection === computerSelection) {
                         result.textContent = "It's a tie!";
                     }
                 
-            if ((playerScore || computerScore) == 5) {
+            if (playerScore == 5 || computerScore == 5) {
                 if (playerScore > computerScore) {
                     result.textContent = "You won!";
                 } else if (playerScore < computerScore) {
                     result.textContent = "You lost";
                 }
+                btns.forEach(btn => {
+                    btn.disabled = true;
+                });
                 restart.style.cssText = "display: block;";
             }
 
@@ -73,6 +76,9 @@
             result.textContent = "";
             restart.style.cssText = "display: none;";
             score.textContent = `${playerScore} - ${computerScore}`;
+            btns.forEach(btn => {
+                btn.disabled = false;
+            });
         })
 
         btns.forEach((btn) => {
