@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="result"></div>
+    <div id="score"></div>
 
     <div class="choices">
         <button value="rock">Rock</button>
@@ -16,10 +17,14 @@
         <button value="scissors">Scissors</button>
     </div>
 
+    <button id="restart" style="display: none">Restart</button>
+
     <script>
 
         let btns = document.querySelectorAll(".choices");
         let result = document.querySelector("#result");
+        let score = document.querySelector("#score");
+        let restart = document.querySelector("#restart");
         let choice = ["rock", "paper", "scissors"];
         let computerSelection;
         let playerSelection;
@@ -36,27 +41,48 @@
         }
 
         function playerRound(playerSelection, computerSelection) {
-            
-            if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "scissors")
-            || (playerSelection === "scissors" && computerSelection === "rock")) {
-                ++computerScore;
-                result.textContent = `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
-            } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
-            || (playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "rock" && computerSelection === "scissors")) {
-                ++playerScore;
-                result.textContent = `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
-            } else if (playerSelection === computerSelection) {
-                result.textContent = "It's a tie!";
+                if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "scissors")
+                    || (playerSelection === "scissors" && computerSelection === "rock")) {
+                        computerScore++;
+                        result.textContent = `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
+                    } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
+                    || (playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "rock" && computerSelection === "scissors")) {
+                        playerScore++;
+                        result.textContent = `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
+                    } else if (playerSelection === computerSelection) {
+                        result.textContent = "It's a tie!";
+                    }
+                
+            if ((playerScore || computerScore) == 5) {
+                if (playerScore > computerScore) {
+                    result.textContent = "You won!";
+                } else if (playerScore < computerScore) {
+                    result.textContent = "You lost";
+                }
+                restart.style.cssText = "display: block;";
             }
+
+            score.textContent = `${playerScore} - ${computerScore}`;
         }
-        
+
+        score.textContent = `${playerScore} - ${computerScore}`;
+         
+        restart.addEventListener('click', () => {
+            playerScore = 0;
+            computerScore = 0;
+            result.textContent = "";
+            restart.style.cssText = "display: none;";
+            score.textContent = `${playerScore} - ${computerScore}`;
+        })
+
         btns.forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 playerSelection = event.target.value;
                 computerSelection = getComputerChoice();
                 playerRound(playerSelection, computerSelection);
-            })
-        });
+                }
+            )}
+        );
 
     </script>
 </body>
