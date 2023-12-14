@@ -5,91 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <script src="https://kit.fontawesome.com/f24846cebd.js" crossorigin="anonymous"></script>
     <script src="rps.js" defer></script>
 </head>
 <body>
-    <div id="result"></div>
-    <div id="score"></div>
+    <div class="content">
+        <div class="center">
+            <div class="player">
+                <h2>You</h2>
+                <i class="fa-solid fa-question fa-2xl" id="player-choice"></i>
+            </div>
 
-    <div class="choices">
-        <button value="rock">Rock</button>
-        <button value="paper">Paper</button>
-        <button value="scissors">Scissors</button>
+            <div class="game">
+                <div id="result"></div>
+                <div id="score"></div>
+            </div>
+    
+            
+            <div class="computer">
+                <h2>Computer</h2>
+                <i class="fa-solid fa-question fa-2xl" id="computer-choice"></i>
+            </div>
+        </div>
+
+        <div class="choices">
+            <button value="rock"><i class="fa-solid fa-hand-back-fist fa-lg"></i></button>
+            <button value="paper"><i class="fa-solid fa-hand fa-lg"></i></button>
+            <button value="scissors"><i class="fa-solid fa-hand-scissors fa-rotate-90 fa-lg"></i></button>
+        </div>
+    
+        <button id="restart" style="display: none">Restart</button>
     </div>
 
-    <button id="restart" style="display: none">Restart</button>
-
-    <script>
-
-        let btns = document.querySelectorAll(".choices button");
-        let result = document.querySelector("#result");
-        let score = document.querySelector("#score");
-        let restart = document.querySelector("#restart");
-        let choice = ["rock", "paper", "scissors"];
-        let computerSelection;
-        let playerSelection;
-        let computerScore = 0;
-        let playerScore = 0;
-
-        function getComputerChoice() {
-            let random = [(Math.floor((Math.random() * 3)))];
-            return choice[random];
-        }
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        function playerRound(playerSelection, computerSelection) {
-                if ((playerSelection === "rock" && computerSelection === "paper") || (playerSelection === "paper" && computerSelection === "scissors")
-                    || (playerSelection === "scissors" && computerSelection === "rock")) {
-                        computerScore++;
-                        result.textContent = `You Loose! ${capitalize(computerSelection)} beats ${capitalize(playerSelection)}`;
-                    } else if ((playerSelection === "paper" && computerSelection === "rock") || (playerSelection === "scissors" && computerSelection === "paper")
-                    || (playerSelection === "rock" && computerSelection === "scissors")) {
-                        playerScore++;
-                        result.textContent = `You Win! ${capitalize(playerSelection)} beats ${capitalize(computerSelection)}`;
-                    } else if (playerSelection === computerSelection) {
-                        result.textContent = "It's a tie!";
-                    }
-                
-            if (playerScore == 5 || computerScore == 5) {
-                if (playerScore > computerScore) {
-                    result.textContent = "You won!";
-                } else if (playerScore < computerScore) {
-                    result.textContent = "You lost";
-                }
-                btns.forEach(btn => {
-                    btn.disabled = true;
-                });
-                restart.style.cssText = "display: block;";
-            }
-
-            score.textContent = `${playerScore} - ${computerScore}`;
-        }
-
-        score.textContent = `${playerScore} - ${computerScore}`;
-         
-        restart.addEventListener('click', () => {
-            playerScore = 0;
-            computerScore = 0;
-            result.textContent = "";
-            restart.style.cssText = "display: none;";
-            score.textContent = `${playerScore} - ${computerScore}`;
-            btns.forEach(btn => {
-                btn.disabled = false;
-            });
-        })
-
-        btns.forEach((btn) => {
-            btn.addEventListener('click', (event) => {
-                playerSelection = event.target.value;
-                computerSelection = getComputerChoice();
-                playerRound(playerSelection, computerSelection);
-                }
-            )}
-        );
-
-    </script>
 </body>
 </html>
